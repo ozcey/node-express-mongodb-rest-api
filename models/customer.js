@@ -1,25 +1,6 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
-const addressSchema = mongoose.Schema({
-    street: {
-        String
-
-    },
-    city: {
-        String
-
-    },
-    state: {
-        String
-
-    },
-    zipcode: {
-        String
-
-    },
-});
-
 const customerSchema = mongoose.Schema({
     name: {
         type: String,
@@ -50,16 +31,20 @@ const customerSchema = mongoose.Schema({
     },
     address: {
         street: {
-            type: String
+            type: String,
+            required: [true, 'Required']
         },
         city: {
-            type: String
+            type: String,
+            required: [true, 'Required']
         },
         state: {
-            type: String
+            type: String,
+            required: [true, 'Required']
         },
         zipcode: {
-            type: String
+            type: String,
+            required: [true, 'Required']
         }
     }
 });
