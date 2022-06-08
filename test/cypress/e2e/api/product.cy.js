@@ -75,6 +75,20 @@ describe('Customer API Tests', () => {
             })
     });
 
+        it('Retrieve product by name', () => {
+            cy.request({
+                    url: `/product/search/${product.name}`,
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${Cypress.env('token')}`
+                    }
+                })
+                .then((res) => {
+                    expect(res.status).to.equal(200);
+                    expect(res.body.data).has.property('name', product.name);
+                })
+        });
+
     it('Update product ', () => {
         cy.request({
                 url: `/product/${productId}`,

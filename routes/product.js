@@ -5,8 +5,9 @@ const authCheck = require('../middleware/auth-check');
 
 router.post('', authCheck, ProductController.CreateProduct);
 router.put('/:id', authCheck, ProductController.UpdateProduct);
-router.get('', authCheck, ProductController.retriveProducts);
-router.get('/:id', authCheck, ProductController.retriveProductById);
+router.get('', ProductController.retriveProducts);
+router.get('/:id', ProductController.retriveProductById);
+router.get('/search/:name', ProductController.retriveProductByName);
 router.delete('/:id', authCheck, ProductController.deleteProduct);
 
 module.exports = router;

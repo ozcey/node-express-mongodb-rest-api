@@ -75,6 +75,20 @@ exports.retriveProductById = (req, res) => {
         .catch((err) => apiRes.errorResponseWithData(res, 'Fetching product by id failed!', err));
 };
 
+exports.retriveProductByName = (req, res) => {
+    Product
+        .findOne({name: req.params.name})
+        .then((product) => {
+            console.log('name', product)
+            if (product) {
+                apiRes.successResponseWithOnlyData(res, product);
+            } else {
+                apiResponses.successResponseWithOnlyData(res, product);
+            }
+        })
+        .catch((err) => apiRes.errorResponseWithData(res, 'Fetching product by name failed!', err));
+};
+
 exports.deleteProduct = (req, res) => {
     Product
         .deleteOne({
