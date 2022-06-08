@@ -2,8 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const mongoose = require('mongoose');
-const port  = 3000;
+const port  = 5000;
 const customerRoutes = require('./routes/customer');
+const productRoutes = require('./routes/product');
 require('dotenv').config();
 
 // db connection
@@ -29,7 +30,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/customer', customerRoutes);
+app.use('/api/product', productRoutes);
 
 app.listen(port, () => {
-    console.log(`App running on port ${3000}`);
+    console.log(`App running on port ${port}`);
 })

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
 
 const productSchema = mongoose.Schema({
     name: {
@@ -20,7 +19,7 @@ const productSchema = mongoose.Schema({
         required: [true, 'Required']
     },
     category: {
-        type: Number,
+        type: String,
         required: [true, 'Required']
 
     },
@@ -29,18 +28,18 @@ const productSchema = mongoose.Schema({
         required: [true, 'Required'],
     },
     quantity: {
-        type: String,
+        type: Number,
         required: [true, 'Required']
     },
     imageURL: {
         type: String,
         required: [true, 'Required']
     },
-      customerId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Customer',
-          required: [true, 'Required']
-      }
+    customerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Customer',
+        required: [true, 'Required']
+    }
 });
 
 

@@ -24,6 +24,7 @@ exports.CreateProduct = (req, res) => {
 
 exports.UpdateProduct = (req, res) => {
     const product = new Product({
+        _id: req.params.id,
         name: req.body.name,
         price: req.body.price,
         description: req.body.description,
