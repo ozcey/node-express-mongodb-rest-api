@@ -11,7 +11,6 @@ exports.CreateProduct = (req, res) => {
         type: req.body.type,
         quantity: req.body.quantity,
         imageURL: req.body.imageURL,
-        customerId: req.customerData.customerId
     });
 
     product
@@ -33,14 +32,11 @@ exports.UpdateProduct = (req, res) => {
         type: req.body.type,
         quantity: req.body.quantity,
         imageURL: req.body.imageURL,
-        customerId: req.customerData.customerId
     });
 
     Product
         .updateOne({
-            _id: req.params.id,
-            customerId: req.customerData.customerId
-        }, product)
+            _id: req.params.id}, product)
         .then((result) => {
             if (result.modifiedCount > 0) {
                 apiRes.successResponse(res, 'Product updated successfully!');
@@ -69,7 +65,7 @@ exports.retriveProductById = (req, res) => {
             if (product) {
                 apiRes.successResponseWithOnlyData(res, product);
             } else {
-                apiResponses.successResponseWithOnlyData(res, product);
+                apiResponses.notFoundResponse(res, 'Not found!');
             }
         })
         .catch((err) => apiRes.errorResponseWithData(res, 'Fetching product by id failed!', err));

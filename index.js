@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const port  = 5000;
 const customerRoutes = require('./routes/customer');
 const productRoutes = require('./routes/product');
+const purchaseRoutes = require('./routes/purchase');
 require('dotenv').config();
 
 // db connection
@@ -31,6 +32,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/customer', customerRoutes);
 app.use('/api/product', productRoutes);
+app.use('/api/purchase', purchaseRoutes);
 
 app.listen(port, () => {
     console.log(`App running on port ${port}`);

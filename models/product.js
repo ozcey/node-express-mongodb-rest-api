@@ -34,11 +34,6 @@ const productSchema = mongoose.Schema({
     imageURL: {
         type: String,
         required: [true, 'Required']
-    },
-    customerId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Customer',
-        required: [true, 'Required']
     }
 });
 

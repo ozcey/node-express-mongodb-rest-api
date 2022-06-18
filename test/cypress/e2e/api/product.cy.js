@@ -7,7 +7,7 @@ import {
 
 let productId;
 
-describe('Customer API Tests', () => {
+describe('Product API Tests', () => {
     before(() => {
         cy.createCustomer(customer);
         cy.login(customer.email, customer.password);
