@@ -71,6 +71,21 @@ exports.retriveProductById = (req, res) => {
         .catch((err) => apiRes.errorResponseWithData(res, 'Fetching product by id failed!', err));
 };
 
+exports.getProductById = (res, productId) => {
+    return Product
+        .findById(productId)
+        .then((product) => {
+            if (product) {
+                return product;
+            } else {
+                apiResponses.notFoundResponse(res, 'Not found!');
+            }
+        })
+        .catch((err) => {
+            return apiRes.errorResponse(res, 'Fetching product by id failed!');
+        });
+}
+
 exports.retriveProductByName = (req, res) => {
     Product
         .findOne({name: req.params.name})
