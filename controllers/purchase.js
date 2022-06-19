@@ -41,8 +41,10 @@ exports.UpdatePurchase = (req, res) => {
         customerId: req.customerData.customerId
     });
 
-    Purchase.updateOne({_id: req.params.id}, purchase)
-    .then((result) => {
+    Purchase.updateOne({
+            _id: req.params.id
+        }, purchase)
+        .then((result) => {
             if (result.modifiedCount > 0) {
                 apiRes.successResponse(res, 'Purchase updated successfully!');
             } else {
@@ -54,7 +56,7 @@ exports.UpdatePurchase = (req, res) => {
         });
 };
 
-exports.retrivePurchase = (req, res) => {
+exports.RetrivePurchase = (req, res) => {
     Purchase
         .find()
         .then((purchases) => {
@@ -63,7 +65,7 @@ exports.retrivePurchase = (req, res) => {
         .catch((err) => apiRes.errorResponseWithData(res, 'Fetching purchases failed!', err));
 };
 
-exports.retrivePurchaseById = (req, res) => {
+exports.RetrivePurchaseById = (req, res) => {
     Purchase
         .findById(req.params.id)
         .then((purchase) => {
@@ -77,7 +79,7 @@ exports.retrivePurchaseById = (req, res) => {
 };
 
 
-exports.deletePurchase = (req, res) => {
+exports.DeletePurchase = (req, res) => {
     Purchase
         .deleteOne({
             _id: req.params.id
@@ -91,4 +93,3 @@ exports.deletePurchase = (req, res) => {
         })
         .catch((err) => apiRes.errorResponse(res, 'Deleting purchase failed!'));
 };
-

@@ -55,12 +55,11 @@ exports.UpdateCustomer = (req, res) => {
             }
         })
         .catch((err) => {
-            console.log('error', err);
             apiRes.errorResponseWithData(res, 'Updating customer failed!', err)
         });
 };
 
-exports.retriveCustomers = (req, res) => {
+exports.RetriveCustomers = (req, res) => {
     Customer
         .find()
         .then((customers) => {
@@ -69,7 +68,7 @@ exports.retriveCustomers = (req, res) => {
         .catch((err) => apiRes.errorResponseWithData(res, 'Fetching customers failed!', err));
 };
 
-exports.retriveCustomerById = (req, res) => {
+exports.RetriveCustomerById = (req, res) => {
     Customer
         .findById(req.params.id)
         .then((customer) => {
@@ -82,7 +81,7 @@ exports.retriveCustomerById = (req, res) => {
         .catch((err) => apiRes.errorResponseWithData(res, 'Fetching customer by id failed!', err));
 };
 
-exports.deleteCustomer = (req, res) => {
+exports.DeleteCustomer = (req, res) => {
     Customer
         .deleteOne({
             _id: req.params.id

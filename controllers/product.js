@@ -49,7 +49,7 @@ exports.UpdateProduct = (req, res) => {
         });
 };
 
-exports.retriveProducts = (req, res) => {
+exports.RetriveProducts = (req, res) => {
     Product
         .find()
         .then((products) => {
@@ -58,7 +58,7 @@ exports.retriveProducts = (req, res) => {
         .catch((err) => apiRes.errorResponseWithData(res, 'Fetching products failed!', err));
 };
 
-exports.retriveProductById = (req, res) => {
+exports.RetriveProductById = (req, res) => {
     Product
         .findById(req.params.id)
         .then((product) => {
@@ -71,7 +71,7 @@ exports.retriveProductById = (req, res) => {
         .catch((err) => apiRes.errorResponseWithData(res, 'Fetching product by id failed!', err));
 };
 
-exports.getProductById = (res, productId) => {
+exports.GetProductById = (res, productId) => {
     return Product
         .findById(productId)
         .then((product) => {
@@ -86,11 +86,10 @@ exports.getProductById = (res, productId) => {
         });
 };
 
-exports.retriveProductByName = (req, res) => {
+exports.RetriveProductByName = (req, res) => {
     Product
         .findOne({name: req.params.name})
         .then((product) => {
-            console.log('name', product)
             if (product) {
                 apiRes.successResponseWithOnlyData(res, product);
             } else {
@@ -100,7 +99,7 @@ exports.retriveProductByName = (req, res) => {
         .catch((err) => apiRes.errorResponseWithData(res, 'Fetching product by name failed!', err));
 };
 
-exports.deleteProduct = (req, res) => {
+exports.DeleteProduct = (req, res) => {
     Product
         .deleteOne({
             _id: req.params.id
