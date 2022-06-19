@@ -84,7 +84,7 @@ exports.getProductById = (res, productId) => {
         .catch((err) => {
             return apiRes.errorResponse(res, 'Fetching product by id failed!');
         });
-}
+};
 
 exports.retriveProductByName = (req, res) => {
     Product
