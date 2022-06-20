@@ -1,6 +1,6 @@
 const Purchase = require('../models/purchase');
 const apiRes = require('../utils/apiRes');
-const utilities = require('../utils/utilities');
+const utils = require('../utils/utilities');
 
 const submitPurchase = async (req, res) => {
     const request = {
@@ -9,12 +9,12 @@ const submitPurchase = async (req, res) => {
     };
 
     const items = request.items;
-    const prices = await utilities.GetPrices(res, items);
+    const prices = await utils.getPrices(res, items);
     const initValue = 0;
     const totalPrice = prices.reduce((preValue, curValue) => (preValue + curValue), initValue);
 
     const purchase = new Purchase({
-        date: utilities.GetTimestamp(),
+        date: utils.getTimestamp(),
         total: totalPrice,
         discountCode: request.discountCode,
         items: request.items,

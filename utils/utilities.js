@@ -1,6 +1,6 @@
 const productController = require('../controllers/product');
 
-exports.GetPrices = async (res, items) => {
+const getPrices = async (res, items) => {
     let prices = [];
     for (const productId of items) {
         const product = await productController.getProductById(res, productId);
@@ -9,9 +9,14 @@ exports.GetPrices = async (res, items) => {
     return prices;
 };
 
-exports.GetTimestamp = () => {
+const getTimestamp = () => {
  const time = new Date().toLocaleTimeString();
  const date = new Date().toLocaleDateString();
  const timestamp = `${date} ${time}`;
  return timestamp;
+};
+
+module.exports = {
+    getPrices,
+    getTimestamp
 };
