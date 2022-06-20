@@ -3,7 +3,7 @@ const apiRes = require('../utils/apiRes');
 const bycrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-exports.CreateCustomer = (req, res) => {
+const createCustomer = (req, res) => {
     bycrypt.hash(req.body.password, 10)
         .then((hash) => {
             const customer = new Customer({
@@ -27,7 +27,7 @@ exports.CreateCustomer = (req, res) => {
         })
 };
 
-exports.UpdateCustomer = (req, res) => {
+const updateCustomer = (req, res) => {
     const customer = new Customer({
         _id: req.params.id,
         name: req.body.name,
@@ -59,7 +59,7 @@ exports.UpdateCustomer = (req, res) => {
         });
 };
 
-exports.RetriveCustomers = (req, res) => {
+const retriveCustomers = (req, res) => {
     Customer
         .find()
         .then((customers) => {
@@ -68,7 +68,7 @@ exports.RetriveCustomers = (req, res) => {
         .catch((err) => apiRes.errorResponseWithData(res, 'Fetching customers failed!', err));
 };
 
-exports.RetriveCustomerById = (req, res) => {
+const retriveCustomerById = (req, res) => {
     Customer
         .findById(req.params.id)
         .then((customer) => {
@@ -81,7 +81,7 @@ exports.RetriveCustomerById = (req, res) => {
         .catch((err) => apiRes.errorResponseWithData(res, 'Fetching customer by id failed!', err));
 };
 
-exports.DeleteCustomer = (req, res) => {
+const deleteCustomer = (req, res) => {
     Customer
         .deleteOne({
             _id: req.params.id
@@ -96,7 +96,7 @@ exports.DeleteCustomer = (req, res) => {
         .catch((err) => apiRes.errorResponse(res, 'Deleting customer failed!'));
 };
 
-exports.LoginToAccount = (req, res) => {
+const loginToAccount = (req, res) => {
     let fetchedCustomer;
     Customer
         .findOne({
@@ -133,4 +133,13 @@ exports.LoginToAccount = (req, res) => {
         .catch((err) => {
             return apiRes.unauthorizedResponse(res, 'Auth failed!');
         })
+};
+
+module.exports = {
+    createCustomer,
+    updateCustomer,
+    retriveCustomers,
+    retriveCustomerById,
+    deleteCustomer,
+    loginToAccount
 };

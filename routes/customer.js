@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const CustomerController = require('../controllers/customer');
+const customerController = require('../controllers/customer');
 const authCheck = require('../middleware/auth-check');
 
-router.post('', CustomerController.CreateCustomer);
-router.put('/:id', authCheck, CustomerController.UpdateCustomer);
-router.get('', authCheck, CustomerController.RetriveCustomers);
-router.get('/:id', authCheck, CustomerController.RetriveCustomerById);
-router.delete('/:id', authCheck, CustomerController.DeleteCustomer);
-router.post('/login', CustomerController.LoginToAccount);
+router.post('', customerController.createCustomer);
+router.put('/:id', authCheck, customerController.updateCustomer);
+router.get('', authCheck, customerController.retriveCustomers);
+router.get('/:id', authCheck, customerController.retriveCustomerById);
+router.delete('/:id', authCheck, customerController.deleteCustomer);
+router.post('/login', customerController.loginToAccount);
 
 module.exports = router;

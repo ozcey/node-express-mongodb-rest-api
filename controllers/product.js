@@ -1,7 +1,7 @@
 const Product = require('../models/product');
 const apiRes = require('../utils/apiRes');
 
-exports.CreateProduct = (req, res) => {
+const createProduct = (req, res) => {
     const product = new Product({
         name: req.body.name,
         price: req.body.price,
@@ -21,7 +21,7 @@ exports.CreateProduct = (req, res) => {
         .catch((err) => apiRes.errorResponseWithData(res, 'Product created failed!', err));
 };
 
-exports.UpdateProduct = (req, res) => {
+const updateProduct = (req, res) => {
     const product = new Product({
         _id: req.params.id,
         name: req.body.name,
@@ -49,7 +49,7 @@ exports.UpdateProduct = (req, res) => {
         });
 };
 
-exports.RetriveProducts = (req, res) => {
+const retriveProducts = (req, res) => {
     Product
         .find()
         .then((products) => {
@@ -58,7 +58,7 @@ exports.RetriveProducts = (req, res) => {
         .catch((err) => apiRes.errorResponseWithData(res, 'Fetching products failed!', err));
 };
 
-exports.RetriveProductById = (req, res) => {
+const retriveProductById = (req, res) => {
     Product
         .findById(req.params.id)
         .then((product) => {
@@ -71,7 +71,7 @@ exports.RetriveProductById = (req, res) => {
         .catch((err) => apiRes.errorResponseWithData(res, 'Fetching product by id failed!', err));
 };
 
-exports.GetProductById = (res, productId) => {
+const getProductById = (res, productId) => {
     return Product
         .findById(productId)
         .then((product) => {
@@ -86,7 +86,7 @@ exports.GetProductById = (res, productId) => {
         });
 };
 
-exports.RetriveProductByName = (req, res) => {
+const retriveProductByName = (req, res) => {
     Product
         .findOne({name: req.params.name})
         .then((product) => {
@@ -99,7 +99,7 @@ exports.RetriveProductByName = (req, res) => {
         .catch((err) => apiRes.errorResponseWithData(res, 'Fetching product by name failed!', err));
 };
 
-exports.DeleteProduct = (req, res) => {
+const deleteProduct = (req, res) => {
     Product
         .deleteOne({
             _id: req.params.id
@@ -112,4 +112,14 @@ exports.DeleteProduct = (req, res) => {
             }
         })
         .catch((err) => apiRes.errorResponse(res, 'Deleting product failed!'));
+};
+
+module.exports = {
+    createProduct,
+    updateProduct,
+    retriveProducts,
+    retriveProductById,
+    getProductById,
+    retriveProductByName,
+    deleteProduct
 };

@@ -2,7 +2,7 @@ const Purchase = require('../models/purchase');
 const apiRes = require('../utils/apiRes');
 const utilities = require('../utils/utilities');
 
-exports.SubmitPurchase = async (req, res) => {
+const submitPurchase = async (req, res) => {
     const request = {
         discountCode: req.body.discountCode,
         items: req.body.items
@@ -31,7 +31,7 @@ exports.SubmitPurchase = async (req, res) => {
 
 };
 
-exports.UpdatePurchase = (req, res) => {
+const updatePurchase = (req, res) => {
     const purchase = new Purchase({
         _id: req.params.id,
         date: req.body.date,
@@ -56,7 +56,7 @@ exports.UpdatePurchase = (req, res) => {
         });
 };
 
-exports.RetrivePurchase = (req, res) => {
+const retrivePurchase = (req, res) => {
     Purchase
         .find()
         .then((purchases) => {
@@ -65,7 +65,7 @@ exports.RetrivePurchase = (req, res) => {
         .catch((err) => apiRes.errorResponseWithData(res, 'Fetching purchases failed!', err));
 };
 
-exports.RetrivePurchaseById = (req, res) => {
+const retrivePurchaseById = (req, res) => {
     Purchase
         .findById(req.params.id)
         .then((purchase) => {
@@ -79,7 +79,7 @@ exports.RetrivePurchaseById = (req, res) => {
 };
 
 
-exports.DeletePurchase = (req, res) => {
+const deletePurchase = (req, res) => {
     Purchase
         .deleteOne({
             _id: req.params.id
@@ -92,4 +92,12 @@ exports.DeletePurchase = (req, res) => {
             }
         })
         .catch((err) => apiRes.errorResponse(res, 'Deleting purchase failed!'));
+};
+
+module.exports = {
+    submitPurchase,
+    updatePurchase,
+    retrivePurchase,
+    retrivePurchaseById,
+    deletePurchase
 };
