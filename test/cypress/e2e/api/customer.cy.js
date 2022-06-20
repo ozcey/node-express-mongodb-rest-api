@@ -1,17 +1,14 @@
 /// <reference types="cypress" />
-import {
-    customer,
-    updatedCustomer
-} from '../../fixtures/customerData';
+import customerData from '../../fixtures/customerData';
 
 describe('Customer API Tests', () => {
 
     it('Create customer', () => {
-        cy.createCustomer(customer);
+        cy.createCustomer(customerData.CUSTOMER);
     });
 
     it('Login to account', () => {
-        cy.login(customer.email, customer.password);
+        cy.login(customerData.CUSTOMER.email, customerData.CUSTOMER.password);
 
     });
 
@@ -39,7 +36,7 @@ describe('Customer API Tests', () => {
             })
             .then((res) => {
                 expect(res.status).to.equal(200);
-                expect(res.body.data).has.property('email', customer.email);
+                expect(res.body.data).has.property('email', customerData.CUSTOMER.email);
                 expect(res.body.data).has.property('_id', Cypress.env('customerId'));
             })
     });
@@ -48,7 +45,7 @@ describe('Customer API Tests', () => {
         cy.request({
                 url: `/customer/${Cypress.env('customerId')}`,
                 method: 'PUT',
-                body: updatedCustomer,
+                body: customerData.UPDATED_CUSTOMER,
                 headers: {
                     'Authorization': `Bearer ${Cypress.env('token')}`
                 }

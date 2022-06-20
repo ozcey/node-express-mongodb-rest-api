@@ -1,16 +1,12 @@
 /// <reference types="cypress" />
-import {
-    product,
-    updatedProduct,
-    customer
-} from '../../fixtures/productData';
+import productData from '../../fixtures/productData';
 
 let productId;
 
 describe('Product API Tests', () => {
     before(() => {
-        cy.createCustomer(customer);
-        cy.login(customer.email, customer.password);
+        cy.createCustomer(productData.CUSTOMER);
+        cy.login(productData.CUSTOMER.email, productData.CUSTOMER.password);
     });
 
     after(() => {
@@ -31,7 +27,7 @@ describe('Product API Tests', () => {
         cy.request({
                 url: '/product',
                 method: 'POST',
-                body: product,
+                body: productData.PRODUCT,
                 headers: {
                     'Authorization': `Bearer ${Cypress.env('token')}`
                 }
@@ -39,7 +35,7 @@ describe('Product API Tests', () => {
             .then((res) => {
                 expect(res.status).to.equal(201);
                 expect(res.body).has.property('message', 'Product created successfully!');
-                expect(res.body.data).has.property('name', product.name);
+                expect(res.body.data).has.property('name', productData.PRODUCT.name);
                 expect(res.body.data).has.property('_id');
                 productId = res.body.data._id;
                 cy.log('p id', productId)
@@ -71,13 +67,13 @@ describe('Product API Tests', () => {
             })
             .then((res) => {
                 expect(res.status).to.equal(200);
-                expect(res.body.data).has.property('name', product.name);
+                expect(res.body.data).has.property('name', productData.PRODUCT.name);
             })
     });
 
         it('Retrieve product by name', () => {
             cy.request({
-                    url: `/product/search/${product.name}`,
+                    url: `/product/search/${productData.PRODUCT.name}`,
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${Cypress.env('token')}`
@@ -85,7 +81,7 @@ describe('Product API Tests', () => {
                 })
                 .then((res) => {
                     expect(res.status).to.equal(200);
-                    expect(res.body.data).has.property('name', product.name);
+                    expect(res.body.data).has.property('name', productData.PRODUCT.name);
                 })
         });
 
@@ -93,7 +89,7 @@ describe('Product API Tests', () => {
         cy.request({
                 url: `/product/${productId}`,
                 method: 'PUT',
-                body: updatedProduct,
+                body: productData.UPDATE_PRODUCT,
                 headers: {
                     'Authorization': `Bearer ${Cypress.env('token')}`
                 }

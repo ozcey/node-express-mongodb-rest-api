@@ -1,18 +1,13 @@
 /// <reference types="cypress" />
-import {
-    customer
-} from '../../fixtures/productData';
-import {
-    purchase,
-    updatedPurchase
-} from '../../fixtures/purchaseData';
+import data from '../../fixtures/productData';
+import purchaseData from '../../fixtures/purchaseData';
 
 let purchaseId;
 
 describe('Purchase API Tests', () => {
     before(() => {
-        cy.createCustomer(customer);
-        cy.login(customer.email, customer.password);
+        cy.createCustomer(data.CUSTOMER);
+        cy.login(data.CUSTOMER.email, data.CUSTOMER.password);
     });
 
     after(() => {
@@ -33,7 +28,7 @@ describe('Purchase API Tests', () => {
         cy.request({
                 url: '/purchase',
                 method: 'POST',
-                body: purchase,
+                body: purchaseData.PURCHASE,
                 headers: {
                     'Authorization': `Bearer ${Cypress.env('token')}`
                 }
@@ -41,7 +36,7 @@ describe('Purchase API Tests', () => {
             .then((res) => {
                 expect(res.status).to.equal(201);
                 expect(res.body).has.property('message', 'Purchase submitted successfully!');
-                expect(res.body.data).has.property('discountCode', purchase.discountCode);
+                expect(res.body.data).has.property('discountCode', purchaseData.PURCHASE.discountCode);
                 expect(res.body.data).has.property('_id');
                 expect(res.body.data).has.property('date');
                 purchaseId = res.body.data._id;
@@ -72,7 +67,7 @@ describe('Purchase API Tests', () => {
             })
             .then((res) => {
                 expect(res.status).to.equal(200);
-                expect(res.body.data).has.property('discountCode', purchase.discountCode);
+                expect(res.body.data).has.property('discountCode', purchaseData.PURCHASE.discountCode);
             })
     });
 
@@ -80,7 +75,7 @@ describe('Purchase API Tests', () => {
         cy.request({
                 url: `/purchase/${purchaseId}`,
                 method: 'PUT',
-                body: updatedPurchase,
+                body: purchaseData.UPDATED_PURCHASE,
                 headers: {
                     'Authorization': `Bearer ${Cypress.env('token')}`
                 }
