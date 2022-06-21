@@ -21,74 +21,67 @@ const createUser = (req, res) => {
         })
 };
 
-// const updateCustomer = (req, res) => {
-//     const customer = new Customer({
-//         _id: req.params.id,
-//         name: req.body.name,
-//         phone: req.body.phone,
-//         email: req.body.email,
-//         password: req.body.password,
-//         address: {
-//             street: req.body.address.street,
-//             city: req.body.address.city,
-//             state: req.body.address.state,
-//             zipcode: req.body.address.zipcode
-//         }
+const updateUser = (req, res) => {
+    const user = new User({
+        _id: req.params.id,
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        role: req.body.role
+    });
 
-//     });
+    User
+        .updateOne({
+            _id: req.params.id
+        }, user)
+        .then((result) => {
+            if (result.modifiedCount > 0) {
+                apiRes.successResponse(res, 'User updated successfully!');
+            } else {
+                apiRes.notFoundResponse(res, 'User not found!');
+            }
+        })
+        .catch((err) => {
+            apiRes.errorResponseWithData(res, 'Updating user failed!', err)
+        });
+};
 
-//     Customer
-//         .updateOne({
-//             _id: req.params.id
-//         }, customer)
-//         .then((result) => {
-//             if (result.modifiedCount > 0) {
-//                 apiRes.successResponse(res, 'Customer updated successfully!');
-//             } else {
-//                 apiRes.notFoundResponse(res, 'Customer not found!');
-//             }
-//         })
-//         .catch((err) => {
-//             apiRes.errorResponseWithData(res, 'Updating customer failed!', err)
-//         });
-// };
+const retriveUsers = (req, res) => {
+    User
+        .find()
+        .then((users) => {
+            apiRes.successResponseWithOnlyData(res, users);
+        })
+        .catch((err) => apiRes.errorResponseWithData(res, 'Fetching users failed!', err));
+};
 
-// const retriveCustomers = (req, res) => {
-//     Customer
-//         .find()
-//         .then((customers) => {
-//             apiRes.successResponseWithOnlyData(res, customers);
-//         })
-//         .catch((err) => apiRes.errorResponseWithData(res, 'Fetching customers failed!', err));
-// };
+const retriveUserById = (req, res) => {
+    User
+        .findById(req.params.id)
+        .then((user) => {
+            if (user) {
+                apiRes.successResponseWithOnlyData(res, user);
+            } else {
+                apiResponses.errorResponseWithData(res, user);
+            }
+        })
+        .catch((err) => apiRes.errorResponseWithData(res, 'Fetching user failed!', err));
+};
 
-// const retriveCustomerById = (req, res) => {
-//     Customer
-//         .findById(req.params.id)
-//         .then((customer) => {
-//             if (customer) {
-//                 apiRes.successResponseWithOnlyData(res, customer);
-//             } else {
-//                 apiResponses.successResponseWithOnlyData(res, customer);
-//             }
-//         })
-//         .catch((err) => apiRes.errorResponseWithData(res, 'Fetching customer by id failed!', err));
-// };
-
-// const deleteCustomer = (req, res) => {
-//     Customer
-//         .deleteOne({
-//             _id: req.params.id
-//         })
-//         .then((result) => {
-//             if (result.deletedCount > 0) {
-//                 apiRes.successResponse(res, 'Customer deleted successfully!');
-//             } else {
-//                 apiRes.notFoundResponse(res, 'Customer not found!');
-//             }
-//         })
-//         .catch((err) => apiRes.errorResponse(res, 'Deleting customer failed!'));
-// };
+const deleteUser = (req, res) => {
+    User
+        .deleteOne({
+            _id: req.params.id
+        })
+        .then((result) => {
+            if (result.deletedCount > 0) {
+                apiRes.successResponse(res, 'User deleted successfully!');
+            } else {
+                apiRes.notFoundResponse(res, 'User not found!');
+            }
+        })
+        .catch((err) => apiRes.errorResponse(res, 'Deleting user failed!'));
+};
 
 const login = (req, res) => {
     let fetchedUser;
@@ -121,7 +114,7 @@ const login = (req, res) => {
                 .status(200)
                 .json({
                     token: token,
-                    expiresIn: 3600
+                    expiresIn: 86400
                 })
         })
         .catch((err) => {
@@ -131,9 +124,9 @@ const login = (req, res) => {
 
 module.exports = {
     createUser,
-    updateCustomer,
-    retriveCustomers,
-    retriveCustomerById,
-    deleteCustomer,
+    updateUser,
+    retriveUsers,
+    retriveUserById,
+    deleteUser,
     login
 };
