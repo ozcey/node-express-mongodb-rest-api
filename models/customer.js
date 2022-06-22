@@ -29,6 +29,10 @@ const customerSchema = mongoose.Schema({
         minLength: [8, 'Must be at least 8 characters long, got {VALUE}']
 
     },
+    roles: {
+        type: Array,
+        required: [true, 'Required']
+    },
     address: {
         street: {
             type: String,

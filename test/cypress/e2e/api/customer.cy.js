@@ -21,8 +21,8 @@ describe('Customer API Tests', () => {
                 }
             })
             .then((res) => {
-                expect(res.status).to.equal(200);
-                expect(res.body).has.property('data');
+                expect(res.status).to.equal(403);
+                expect(res.body).has.property('message', 'Require admin role!');
             })
     });
 

@@ -55,3 +55,9 @@ exports.unauthorizedResponse = (res, msg) => {
         message: msg
     })
 };
+
+exports.forbiddenResponse = (res, msg) => {
+    return res.status(403).json({
+        message: msg
+    })
+};
