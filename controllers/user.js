@@ -10,7 +10,7 @@ const createUser = (req, res) => {
                 name: req.body.name,
                 email: req.body.email,
                 password: hash,
-                role: req.body.role
+                roles: req.body.roles
             });
             user
                 .save()
@@ -22,28 +22,30 @@ const createUser = (req, res) => {
 };
 
 const updateUser = (req, res) => {
-    const user = new User({
-        _id: req.params.id,
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        role: req.body.role
-    });
-
-    User
-        .updateOne({
-            _id: req.params.id
-        }, user)
-        .then((result) => {
-            if (result.modifiedCount > 0) {
-                apiRes.successResponse(res, 'User updated successfully!');
-            } else {
-                apiRes.notFoundResponse(res, 'User not found!');
-            }
+    bycrypt.hash(req.body.password, 10)
+        .then((hash) => {
+            const user = new User({
+                _id: req.params.id,
+                name: req.body.name,
+                email: req.body.email,
+                password: hash,
+                roles: req.body.roles
+            });
+            User
+                .updateOne({
+                    _id: req.params.id
+                }, user)
+                .then((result) => {
+                    if (result.modifiedCount > 0) {
+                        apiRes.successResponse(res, 'User updated successfully!');
+                    } else {
+                        apiRes.notFoundResponse(res, 'User not found!');
+                    }
+                })
+                .catch((err) => {
+                    apiRes.errorResponseWithData(res, 'Updating user failed!', err)
+                });
         })
-        .catch((err) => {
-            apiRes.errorResponseWithData(res, 'Updating user failed!', err)
-        });
 };
 
 const retriveUsers = (req, res) => {
@@ -103,7 +105,8 @@ const login = (req, res) => {
 
             const token = jwt.sign({
                     email: fetchedUser.email,
-                    userId: fetchedUser._id
+                    userId: fetchedUser._id,
+                    userRole: fetchedUser.roles
                 },
                 process.env.JWT_SECRET_KEY, {
                     expiresIn: '1d'
