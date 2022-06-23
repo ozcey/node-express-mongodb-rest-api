@@ -36,6 +36,6 @@ app.use('/api/product', productRoutes);
 app.use('/api/purchase', purchaseRoutes);
 app.use('/api/user', userRoutes);
 
-app.listen(port, () => {
-    console.log(`App running on port ${port}`);
-})
+app.listen(process.env.PORT || port, () => {
+    console.log(`App running on port ${process.env.PORT || port}`);
+});
