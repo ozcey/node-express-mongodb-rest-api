@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Customer = require('../models/customer');
 const apiRes = require('../utils/apiRes');
 const bycrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -85,9 +86,37 @@ const deleteUser = (req, res) => {
         .catch((err) => apiRes.errorResponse(res, 'Deleting user failed!'));
 };
 
-const login = (req, res) => {
+const hasCustomerRole = async (req, res) => {
+    let hasRole = false;
+    await Customer
+        .findOne({
+            email: req.body.email
+        })
+        .then((customer) => {
+            if (customer.roles.includes('ROLE_CUSTOMER')) {
+                hasRole = true;
+                return;
+            };
+            hasRole = false;
+        })
+        .catch((err) => {
+            hasRole = false;
+        });
+    return hasRole;
+}
+
+const login = async (req, res) => {
+    const isCustomer = await hasCustomerRole(req, res);
+    if (isCustomer) {
+        loginToAccount(req, res, Customer);
+    } else {
+        loginToAccount(req, res, User);
+    }
+};
+
+const loginToAccount = (req, res, model) => {
     let fetchedUser;
-    User
+    model
         .findOne({
             email: req.body.email
         })
@@ -95,6 +124,7 @@ const login = (req, res) => {
             if (!user) {
                 return apiRes.unauthorizedResponse(res, 'Auth failed!');
             };
+            console.log('user logged In');
             fetchedUser = user;
             return bycrypt.compare(req.body.password, user.password);
         })
@@ -122,7 +152,7 @@ const login = (req, res) => {
         })
         .catch((err) => {
             return apiRes.unauthorizedResponse(res, 'Auth failed!');
-        })
+        });
 };
 
 module.exports = {
