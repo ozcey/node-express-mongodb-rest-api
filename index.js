@@ -10,8 +10,7 @@ const userRoutes = require('./routes/user');
 require('dotenv').config();
 
 // db connection
-const env = process.env;
-mongoose.connect(`mongodb+srv://${env.DB_USER}:${env.DB_PSWD}@${env.DB_CLUSTER}/${env.DB_NAME}`)
+mongoose.connect(process.env.DB_URL)
     .then(() => {
         console.log('Connected to database');
     }).catch(() => {
