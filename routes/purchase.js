@@ -8,7 +8,7 @@ const verifyRoles = require('../middleware/verifyRoles');
 router.post('', authCheck.verifyToken, purchaseController.submitPurchase);
 router.put('/:id', authCheck.verifyToken, purchaseController.updatePurchase);
 router.get('', [authCheck.verifyToken, verifyRoles(roles.Admin)], purchaseController.retrivePurchase);
-router.get('/:id', [authCheck.verifyToken, verifyRoles(roles.Customer, role.Admin, roles.User)], purchaseController.retrivePurchaseById);
+router.get('/:id', [authCheck.verifyToken, verifyRoles(roles.Customer, roles.Admin, roles.User)], purchaseController.retrivePurchaseById);
 router.delete('/:id', authCheck.verifyToken, purchaseController.deletePurchase);
 
 module.exports = router;

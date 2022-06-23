@@ -100,51 +100,10 @@ const deleteCustomer = (req, res) => {
         .catch((err) => apiRes.errorResponse(res, 'Deleting customer failed!'));
 };
 
-const loginToAccount = (req, res) => {
-    let fetchedCustomer;
-    Customer
-        .findOne({
-            email: req.body.email
-        })
-        .then((customer) => {
-            if (!customer) {
-                return apiRes.unauthorizedResponse(res, 'Auth failed!');
-            };
-            fetchedCustomer = customer;
-            return bycrypt.compare(req.body.password, customer.password);
-        })
-        .then((result) => {
-            if (!result) {
-                return apiRes.unauthorizedResponse(res, 'Auth failed!');
-            };
-
-            const token = jwt.sign({
-                    email: fetchedCustomer.email,
-                    userId: fetchedCustomer._id,
-                    userRole: fetchedCustomer.roles
-                },
-                process.env.JWT_SECRET_KEY, {
-                    expiresIn: '1h'
-                }
-            );
-
-            res
-                .status(200)
-                .json({
-                    token: token,
-                    expiresIn: 3600
-                })
-        })
-        .catch((err) => {
-            return apiRes.unauthorizedResponse(res, 'Auth failed!');
-        })
-};
-
 module.exports = {
     createCustomer,
     updateCustomer,
     retriveCustomers,
     retriveCustomerById,
     deleteCustomer,
-    loginToAccount
 };
